@@ -5,35 +5,10 @@
 trigger:
 - main
 
-resources:
-- repo: self
+pool:
+  vmImage: ubuntu-latest
 
-variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'a7dee6cb-b82d-493a-9b40-74a655131eb5'
-  imageRepository: 'srinivasdevopspractice'
-  containerRegistry: 'testregistrycr1.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile.txt'
-  tag: '$(Build.BuildId)'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+- script: |
+    echo "Hello World"
+  displayName: 'npm install and build'
